@@ -5,6 +5,9 @@ import { useCircumstanceContext } from '../../global/CircumstanceProvider'
 // import { useDeepCompareEffect } from '../../hooks/useDeepCompare'
 import CLASSNAMES from '../../styles'
 import mergeProps from '../../lib/mergeProps'
+import { CIRCUMSTANCE_TYPES } from '../../lib/__consts'
+import withType from '../hoc/withType'
+
 // import useRefState from '../../hooks/useRefState'
 
 interface MenuProps
@@ -13,6 +16,7 @@ interface MenuProps
     HTMLElement
   > {
   id: string
+  __TYPE?: CIRCUMSTANCE_TYPES
 }
 
 const Menu: React.FC<MenuProps> = ({ id, children, ...rest }) => {
@@ -23,26 +27,14 @@ const Menu: React.FC<MenuProps> = ({ id, children, ...rest }) => {
     ...currentMenu.mousePosition,
     ref
   })
-  console.log(style)
   const props = {
     'aria-label': 'menu',
     tabIndex: -1,
     className: CLASSNAMES.Menu,
     style,
     ref: ref,
-    // ...(!coordinates.current.top && !coordinates.current.left
-    //   ? { display: 'none' }
-    //   : {}),
     id: id
   }
-  // console.log(currentMenu)
-  // useDeepCompareEffect(() => {
-  //   if (ref.current) {
-  //     setCoordinates(
-  //
-  //     )
-  //   }
-  // }, [currentMenu])
   if (currentMenu.id !== id) {
     return null
   }
@@ -51,4 +43,4 @@ const Menu: React.FC<MenuProps> = ({ id, children, ...rest }) => {
 
 if (process.env.NODE_ENV !== 'production') (Menu as any).whyDidYouRender = true
 
-export default Menu
+export default withType(Menu, CIRCUMSTANCE_TYPES.CIRCUMSTANCE_MENU)

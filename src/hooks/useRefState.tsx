@@ -1,4 +1,12 @@
-import { useCallback, useRef, useState, useEffect } from 'react'
+import {
+  useCallback,
+  useRef,
+  useState,
+  useEffect,
+  MutableRefObject,
+  Dispatch,
+  SetStateAction
+} from 'react'
 
 /**
  * Determines if the given param is an object. {}

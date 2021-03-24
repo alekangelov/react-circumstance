@@ -53,18 +53,20 @@ export function deepEqual(x: any, y: any) {
   if (x === y) {
     return true
   } else if (
-    typeof x == 'object' &&
+    typeof x === 'object' &&
     x != null &&
-    typeof y == 'object' &&
+    typeof y === 'object' &&
     y != null
   ) {
-    if (Object.keys(x).length != Object.keys(y).length) return false
+    if (Object.keys(x).length !== Object.keys(y).length) return false
 
     for (const prop in x) {
-      if (prop && x.hasOwnProperty(prop)) {
-        if (y.hasOwnProperty(prop)) {
-          if (!deepEqual(x[prop], y[prop])) return false
-        }
+      if (
+        prop &&
+        {}.hasOwnProperty.call(x, prop) &&
+        {}.hasOwnProperty.call(y, prop)
+      ) {
+        if (!deepEqual(x[prop], y[prop])) return false
       } else {
         return false
       }
@@ -76,4 +78,15 @@ export function deepEqual(x: any, y: any) {
 
 export function onlyUnique(value: any, index: number, self: any[]) {
   return self.indexOf(value) === index
+}
+
+export function hasOwnProperty<X extends {}, Y extends PropertyKey>(
+  obj: X,
+  prop: Y
+): obj is X & Record<Y, unknown> {
+  return {}.hasOwnProperty.call(obj, prop)
+}
+
+export function doNothingWith(something: any) {
+  return something
 }

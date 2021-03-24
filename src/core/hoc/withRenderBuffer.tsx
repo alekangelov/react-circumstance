@@ -6,9 +6,7 @@ export default function withRenderBuffer(WrappedComponent: ComponentType) {
     state = {
       canRender: false
     }
-    constructor(props: any) {
-      super(props)
-    }
+
     componentDidMount() {
       setTimeout(() => this.setState({ canRender: true }), CONSTS.RENDER_BUFFER)
     }

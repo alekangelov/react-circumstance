@@ -5,7 +5,8 @@ import {
   useCircumstance,
   Menu,
   MenuItem,
-  Divider
+  Divider,
+  SubMenu
 } from 'react-circumstance'
 import 'react-circumstance/dist/index.css'
 
@@ -19,7 +20,10 @@ const InnerApp = () => {
       <Menu {...bindMenu()}>
         <MenuItem
           icon={
-            <img alt={'menu-icon'} src={require('./assets/tux-batman.webp')} />
+            <img
+              alt={'i am also an icon'}
+              src={require('./assets/tux-batman.webp')}
+            />
           }
           onClick={(e) => {
             e.persist()
@@ -27,11 +31,14 @@ const InnerApp = () => {
           }}
         >
           Item 1
+          <SubMenu>
+            <MenuItem>SubMenu 1 Item 1</MenuItem>
+          </SubMenu>
         </MenuItem>
         <MenuItem
           icon={
             <img
-              alt={'menu-icon'}
+              alt={'i am an icon'}
               src={require('./assets/tux-spiderman.png')}
             />
           }
