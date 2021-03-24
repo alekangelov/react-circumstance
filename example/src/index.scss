@@ -1,3 +1,46 @@
+$darkTheme: "darkTheme";
+$lightTheme: "lightTheme";
+
+$background: "background";
+$textColor: "textColor";
+$modalBackground: "modalBackground";
+$modalBorder: "modalBorder";
+/* ...other color keys... */
+
+$themes: (
+  $darkTheme: (
+    $background: #0f0f0f,
+    $textColor: white,
+    $modalBackground: rgba(white, 0.05),
+    $modalBorder: rgba(white, 0.1)
+  ),
+  $lightTheme: (
+    $background: white,
+    $textColor: black,
+    $modalBackground: rgba(black, 0.05),
+    $modalBorder: rgba(black, 0.1)
+  )
+);
+
+@mixin themeProperty($theme, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties) {
+  @if $additionalPropertiesPositionIsFront {
+    #{$property}: unquote($additionalProperties + ' ' + map-get($theme, $color));
+  } @else {
+    #{$property}: unquote(map-get($theme, $color) + ' ' + $additionalProperties);
+  }
+}
+
+@mixin theme($property, $color, $additionalPropertiesPositionIsFront: false, $additionalProperties: '') {
+  $light: map-get($themes, $lightTheme);
+  $dark: map-get($themes, $darkTheme);
+
+  @include themeProperty($light, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties);
+
+  @media (prefers-color-scheme: dark) {
+    @include themeProperty($dark, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties);
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -7,8 +50,8 @@ body {
   font-size: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0f0f0f;
-  color: white;
+  @include theme("background", $background);
+  @include theme("color", $textColor);
 }
 
 code {
@@ -30,7 +73,8 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(white, 0.025);
-  border: 1px solid rgba(white, 0.1);
+  @include theme("background", $modalBackground);
+  @include theme("border-color", $modalBorder);
+  border: 1px solid;
   border-radius: 0.5rem;
 }

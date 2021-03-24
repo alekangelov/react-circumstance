@@ -20,9 +20,10 @@ class EventManager implements EventManagerProps {
     if (closest) {
       const data = closest.dataset || {}
       if (data?.circumstanceId) {
-        this.emit(`${data.circumstanceId}.show`, event)
+        return this.emit(`${data.circumstanceId}.show`, event)
       }
     }
+    return this.emit(CONSTS.EVENTS.HIDE_ALL, event)
   }
 
   clickEvent = (event: MouseEvent) => {
@@ -41,15 +42,17 @@ class EventManager implements EventManagerProps {
   }
 
   addEvents = () => {
-    if (canUseDOM)
+    if (canUseDOM) {
       window.addEventListener('contextmenu', this.contextMenuEvent, {
         passive: false
       })
-    window.addEventListener('click', this.clickEvent)
+      window.addEventListener('click', this.clickEvent)
+    }
     return () => {
-      if (canUseDOM)
+      if (canUseDOM) {
         window.removeEventListener('contextmenu', this.contextMenuEvent)
-      window.removeEventListener('click', this.clickEvent)
+        window.removeEventListener('click', this.clickEvent)
+      }
     }
   }
 

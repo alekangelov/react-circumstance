@@ -1,4 +1,4 @@
-import { ReactNode, RefObject } from 'react'
+import { CSSProperties, ReactNode, RefObject } from 'react'
 import ReactDOM from 'react-dom'
 import CONSTS from './__consts'
 
@@ -20,11 +20,16 @@ interface GetMenuPosition {
   ref: RefObject<any>
 }
 
-export function getMenuPosition({ x = 0, y = 0, ref }: GetMenuPosition) {
+export function getMenuPosition({
+  x = 0,
+  y = 0,
+  ref
+}: GetMenuPosition): CSSProperties {
   const coordinates = {
     top: y,
     left: x
   }
+  if (!ref.current) return coordinates
   const { innerWidth, innerHeight } = window
   const rect = ref.current.getBoundingClientRect()
   if (y + rect.height > innerHeight) {

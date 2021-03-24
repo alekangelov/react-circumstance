@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import CLASSNAMES from '../styles'
 import CONSTS from '../lib/__consts'
 
@@ -34,12 +34,15 @@ export const useCircumstanceContext = () =>
 
 const CircumstanceProvider: React.FC<any> = ({ children }) => {
   const [currentMenu, setCurrentMenu] = React.useState(defaultMenu)
-  const pushStance: CircumstanceProps['pushStance'] = (props) => {
-    setCurrentMenu(props)
-  }
-  const removeStance: CircumstanceProps['removeStance'] = () => {
+  const pushStance: CircumstanceProps['pushStance'] = useCallback(
+    (props) => {
+      setCurrentMenu(props)
+    },
+    [setCurrentMenu]
+  )
+  const removeStance: CircumstanceProps['removeStance'] = useCallback(() => {
     setCurrentMenu(defaultMenu)
-  }
+  }, [setCurrentMenu])
   return (
     <CircumstanceContext.Provider
       value={{ pushStance, removeStance, currentMenu }}
