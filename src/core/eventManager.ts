@@ -30,8 +30,10 @@ class EventManager implements EventManagerProps {
     const events = [...this.eventList.keys()]
       .map((eventName) => idAndEventFromString(eventName)[0])
       .filter(onlyUnique)
+    const hasButton = target.closest(`[role="button"]`)
     const closest = events.map((id) => target.closest(`#${id}`)).filter(Boolean)
-    if (!closest || !closest.length) this.emit(CONSTS.EVENTS.HIDE_ALL, event)
+    if (!closest || !closest.length || hasButton)
+      this.emit(CONSTS.EVENTS.HIDE_ALL, event)
   }
 
   constructor() {

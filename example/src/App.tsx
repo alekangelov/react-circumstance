@@ -15,7 +15,17 @@ const InnerApp = () => {
     <div {...bindTrigger()} className='clickable'>
       <div>Click Me</div>
       <Menu {...bindMenu()}>
-        <MenuItem>Item 1</MenuItem>
+        <MenuItem
+          icon={
+            <img alt={'menu-icon'} src={require('./assets/tux-batman.webp')} />
+          }
+          onClick={(e) => {
+            e.persist()
+            console.log(e)
+          }}
+        >
+          Item 1
+        </MenuItem>
         <MenuItem>Item 2</MenuItem>
         <MenuItem>Item 3</MenuItem>
         <Divider />
