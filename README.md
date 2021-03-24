@@ -1,13 +1,14 @@
-# react-circumstance
+# React Circumstance
 
-> A simple and lightweight context menu for React
+> A lightweight and straightforward Context Menu manager for React.
 
 [![NPM](https://img.shields.io/npm/v/react-circumstance.svg)](https://www.npmjs.com/package/react-circumstance) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save react-circumstance
+npm i react-circumstance
+yarn add react-circumstance
 ```
 
 ## Usage
@@ -24,6 +25,8 @@ class Example extends Component {
   }
 }
 ```
+
+## Methodology and understanding
 
 ## License
 
