@@ -12,21 +12,10 @@ yarn add react-circumstance
 ```
 
 ## Usage
-
-```tsx
-import React, { Component } from 'react'
-
-import MyComponent from 'react-circumstance'
-import 'react-circumstance/dist/index.css'
-
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
-```
+Still working on the API
 
 ## Methodology and understanding
+This whole library is an event manager with hooks connecting to state.
 
 ## License
 
