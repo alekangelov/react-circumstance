@@ -7,8 +7,7 @@
     "prettier/standard",
     "prettier/react",
     "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/eslint-recommended"
   ],
   "env": {
     "node": true
@@ -33,6 +32,7 @@
     "react/no-unused-prop-types": 0,
     "import/export": 0,
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"]
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

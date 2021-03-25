@@ -1,7 +1,9 @@
 import canUseDOM from '../lib/canUseDom'
 // import { idAndEventFromString } from '../lib/helpers'
 import CONSTS from '../lib/__consts'
-import { idAndEventFromString, onlyUnique } from '../lib/helpers'
+import { camelIds, idAndEventFromString, onlyUnique } from '../lib/helpers'
+import { classNames } from '../styles'
+import { throttle, debounce } from 'throttle-debounce'
 
 export type EventType = string
 export type Handler<T = any> = (args?: T) => void
@@ -13,14 +15,15 @@ export interface EventManagerProps<E = EventType> {
 }
 
 class EventManager implements EventManagerProps {
-  eventList = new Map()
+  eventList = new Map<any, (e: MouseEvent) => void>()
   contextMenuEvent = (event: MouseEvent) => {
     const target = event.target as HTMLElement
-    const closest = target.closest(`[data-circumstance-id]`) as HTMLElement
+    const closest = target.closest(`[${CONSTS.IDS.ID}]`) as HTMLElement
     if (closest) {
       const data = closest.dataset || {}
-      if (data?.circumstanceId) {
-        return this.emit(`${data.circumstanceId}.show`, event)
+      console.log(data)
+      if (data && data[camelIds.ID]) {
+        return this.emit(`${data[camelIds.ID]}.show`, event)
       }
     }
     return this.emit(CONSTS.EVENTS.HIDE_ALL, event)
@@ -31,7 +34,7 @@ class EventManager implements EventManagerProps {
     const events = [...this.eventList.keys()]
       .map((eventName) => idAndEventFromString(eventName)[0])
       .filter(onlyUnique)
-    const hasButton = target.closest(`[role="button"]`)
+    const hasButton = target.closest(`.${classNames.MenuItem}[role="button"]`)
     const closest = events.map((id) => target.closest(`#${id}`)).filter(Boolean)
     if (!closest || !closest.length || hasButton)
       this.emit(CONSTS.EVENTS.HIDE_ALL, event)
@@ -40,6 +43,19 @@ class EventManager implements EventManagerProps {
   constructor() {
     this.addEvents()
   }
+
+  mouseMove = throttle(
+    200,
+    false,
+    debounce(400, false, (event: MouseEvent) => {
+      const target = event.target as HTMLElement
+      const events = [...this.eventList.keys()]
+        .map((eventName) => idAndEventFromString(eventName))
+        .filter(onlyUnique)
+      const hasButton = target.closest(`.${classNames.MenuItem}[role="button"]`)
+      console.log(events, hasButton)
+    })
+  )
 
   addEvents = () => {
     if (canUseDOM) {
@@ -69,15 +85,15 @@ class EventManager implements EventManagerProps {
   }
 
   emit = (event: EventType, MouseEvent: MouseEvent) => {
+    const eventToEmit = this.eventList.get(event)
     if (event === CONSTS.EVENTS.HIDE_ALL) {
       this.eventList.forEach((elem, index) => {
         if (index.includes('.hide')) elem(MouseEvent)
       })
       return this
     }
-    if (event && this.eventList.get(event)) {
-      MouseEvent.preventDefault()
-      this.eventList.get(event)(MouseEvent)
+    if (event && typeof eventToEmit === 'function') {
+      eventToEmit(MouseEvent)
     }
     return this
   }

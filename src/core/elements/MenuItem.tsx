@@ -1,11 +1,13 @@
-import React, { Children, useCallback, useState } from 'react'
+import React, { Children, useRef } from 'react'
 import CLASSNAMES from '../../styles'
 import mergeProps from '../../lib/mergeProps'
-import { CIRCUMSTANCE_TYPES } from '../../lib/__consts'
+import CONSTS, { CIRCUMSTANCE_TYPES } from '../../lib/__consts'
 // import { hasOwnProperty } from '../../lib/helpers'
 import withType, { WithType } from '../hoc/withType'
 import { hasOwnProperty } from '../../lib/helpers'
 import ArrowIcon from '../../styles/ArrowIcon'
+import makeId from '../../lib/makeId'
+import eventManager from '../eventManager'
 
 type ButtonProps = React.DetailedHTMLProps<
   React.HTMLAttributes<Element>,
@@ -38,19 +40,17 @@ const MenuItem: React.FC<MenuItemProps> = ({
   ...rest
 }) => {
   const { otherChildren, subMenu } = separateChildrenFromMenu(children)
-  const [subMenuState, showSubMenu] = useState<boolean>(false)
-  const onMouseEnter = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    showSubMenu(true)
-  }, [])
-  const onMouseLeave = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    showSubMenu(false)
-  }, [])
-  const props: ButtonProps = {
+  const subMenuId = useRef(makeId())
+  const props = {
     className: CLASSNAMES.MenuItem,
     ...(typeof rest.onClick === 'function' ? { role: 'button' } : {}),
-    ...(subMenu.length ? { onMouseEnter, onMouseLeave } : {})
+    ...(subMenu.length && { [CONSTS.IDS.SUBMENU_ID]: subMenuId.current }),
+    onMouseOver: (e: React.MouseEvent) => {
+      const event = (e as unknown) as MouseEvent
+      eventManager
+        .emit(CONSTS.EVENTS.HIDE_ALL_SUBMENUS, event)
+        .emit(CONSTS.EVENTS.SHOW_SUBMENU(subMenuId.current), event)
+    }
   }
   return (
     <div {...mergeProps(props, rest)}>
@@ -61,9 +61,10 @@ const MenuItem: React.FC<MenuItemProps> = ({
           <ArrowIcon className={CLASSNAMES.ArrowIcon} />
         )}
       </div>
-      {subMenuState &&
-        React.cloneElement(subMenu[0] as React.ReactElement, {
-          show: subMenuState
+      {Boolean(subMenu.length) &&
+        Boolean((subMenu as React.ReactElement[])[0]) &&
+        React.cloneElement((subMenu as React.ReactElement[])[0], {
+          id: subMenuId.current
         })}
     </div>
   )

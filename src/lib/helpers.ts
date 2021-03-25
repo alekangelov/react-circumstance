@@ -2,11 +2,39 @@ import { CSSProperties, ReactNode, RefObject } from 'react'
 import ReactDOM from 'react-dom'
 import CONSTS from './__consts'
 
+export const clone = <T extends object>(object: T) => Object.assign({}, object)
+
+export const removeDataFromString = <T extends string>(e: T) =>
+  e.replace('data-', '')
+
+export function camelize(str: string) {
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase()
+    })
+    .replace(/\s+/g, '')
+    .replace(/-/g, '')
+}
 export function idAndEventFromString(string: string) {
+  if (string.includes('submenu')) {
+    const [submenu, id, event] = string.split('.')
+    return [id, event, submenu]
+  }
   let [id, event] = string.split('.')
   if (!event) event = ''
   return [id, event]
 }
+
+export const camelIds = (() => {
+  const y = clone(CONSTS.IDS)
+  for (const i in y) {
+    if ({}.hasOwnProperty.call(y, i)) {
+      y[i] = removeDataFromString(y[i])
+      y[i] = camelize(y[i])
+    }
+  }
+  return y
+})()
 
 export function portalToRoot(node: ReactNode, id: string) {
   const parent = document.querySelector(`#${CONSTS.PROVIDER_ID}`) as Element
@@ -130,7 +158,7 @@ export function hasOwnProperty<X extends {}, Y extends PropertyKey>(
   obj: X,
   prop: Y
 ): obj is X & Record<Y, unknown> {
-  return {}.hasOwnProperty.call(obj, prop)
+  return Object.prototype.hasOwnProperty.call(obj, prop)
 }
 
 export function doNothingWith(something: any) {
