@@ -29,7 +29,7 @@ const useMounted = () => {
 
 export function useRefState<S>(
   initialState: S | (() => S),
-  blockIfUnmounted: boolean = true
+  blockIfUnmounted = true
 ): [MutableRefObject<S>, Dispatch<SetStateAction<S>>] {
   const mounted = useMounted()
   const [reactState, setReactState] = useState(initialState)
