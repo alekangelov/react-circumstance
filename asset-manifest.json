@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "./static/css/main.88c257a1.chunk.css",
+    "main.js": "./static/js/main.b53110f4.chunk.js",
+    "main.js.map": "./static/js/main.b53110f4.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.f867a6fe.js",
+    "runtime-main.js.map": "./static/js/runtime-main.f867a6fe.js.map",
+    "static/js/2.3203c9c9.chunk.js": "./static/js/2.3203c9c9.chunk.js",
+    "static/js/2.3203c9c9.chunk.js.map": "./static/js/2.3203c9c9.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.baec239595f9f372f0be735c600def08.js": "./precache-manifest.baec239595f9f372f0be735c600def08.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/main.88c257a1.chunk.css.map": "./static/css/main.88c257a1.chunk.css.map",
+    "static/js/2.3203c9c9.chunk.js.LICENSE.txt": "./static/js/2.3203c9c9.chunk.js.LICENSE.txt",
+    "static/media/tux-batman.webp": "./static/media/tux-batman.cd705941.webp",
+    "static/media/tux-spiderman.png": "./static/media/tux-spiderman.4ab6ee99.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f867a6fe.js",
+    "static/js/2.3203c9c9.chunk.js",
+    "static/css/main.88c257a1.chunk.css",
+    "static/js/main.b53110f4.chunk.js"
+  ]
+}
