@@ -19,6 +19,52 @@ interface GetMenuPosition {
   y: number
   ref: RefObject<any>
 }
+interface GetSubMenuPosition {
+  ref: RefObject<any>
+}
+
+const removeEmptyFromObject = (y: { [key: string]: any }) => {
+  const x = {}
+  for (const key in y) {
+    if (y[key]) x[key] = y[key]
+  }
+  return x
+}
+
+const makeCoordinates = (coordinates: {
+  left?: number | string | null | undefined
+  top?: number | string | null | undefined
+  bottom?: number | string | null | undefined
+  right?: number | string | null | undefined
+}) => {
+  const x = removeEmptyFromObject(coordinates)
+  for (const key in x) {
+    if (typeof x[key] === 'number') x[key] = `${x[key]}%`
+  }
+  return x
+}
+
+export function getSubMenuPosition({ ref }: GetSubMenuPosition): CSSProperties {
+  const coordinates = {
+    left: 100 as number | string | null | undefined,
+    top: 0 as number | string | null | undefined,
+    bottom: 0 as number | string | null | undefined,
+    right: 0 as number | string | null | undefined
+  }
+  if (!ref.current) return makeCoordinates(coordinates)
+  const { innerWidth, innerHeight } = window
+  const rect = ref.current.getBoundingClientRect()
+  console.log(rect)
+  if (rect.top + rect.height > innerHeight) {
+    coordinates.bottom = '0%'
+  }
+  if (rect.left + rect.width > innerWidth) {
+    coordinates.left = null
+    coordinates.right = 100
+  }
+
+  return makeCoordinates(coordinates)
+}
 
 export function getMenuPosition({
   x = 0,

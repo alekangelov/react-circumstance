@@ -1,19 +1,30 @@
-import React, { Component, ComponentType } from 'react'
+import React from 'react'
 import { CIRCUMSTANCE_TYPES } from '../../lib/__consts'
+// import { Subtract } from 'utility-types'
 
-interface WithType {
-  __TYPE: CIRCUMSTANCE_TYPES
+export interface WithType {
+  __TYPE?: CIRCUMSTANCE_TYPES
 }
+//
+// const withType = <P, CIRCUMSTANCE_TYPES>(
+//   WrappedComponent: ComponentType<P>,
+//   type: CIRCUMSTANCE_TYPES = CIRCUMSTANCE_TYPES.CIRCUMSTANCE_DEFAULT
+// ) => {
+//   return class extends Component<P & any, any> {
+//     render() {
+//       return <WrappedComponent {...{ ...(this.props as P), __TYPE: type }} />
+//     }
+//   }
+// }
 
 const withType = <P extends WithType>(
-  WrappedComponent: ComponentType<P>,
-  type: CIRCUMSTANCE_TYPES
+  WrappedComponent: React.ComponentType<P>,
+  __TYPE: CIRCUMSTANCE_TYPES
 ) => {
-  return class extends Component<P & WithType> {
-    render() {
-      return <WrappedComponent {...{ ...(this.props as P), __TYPE: type }} />
-    }
+  WrappedComponent.defaultProps = {
+    __TYPE: __TYPE as any
   }
+  return WrappedComponent
 }
 
 export default withType

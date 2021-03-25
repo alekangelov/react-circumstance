@@ -33,6 +33,10 @@ const InnerApp = () => {
           Item 1
           <SubMenu>
             <MenuItem>SubMenu 1 Item 1</MenuItem>
+            <MenuItem>SubMenu 1 Item 1</MenuItem>
+            <MenuItem>SubMenu 1 Item 1</MenuItem>
+            <MenuItem>SubMenu 1 Item 1</MenuItem>
+            <MenuItem>SubMenu 1 Item 1</MenuItem>
           </SubMenu>
         </MenuItem>
         <MenuItem

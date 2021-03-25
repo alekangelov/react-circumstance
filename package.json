@@ -20,6 +20,8 @@
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
     "test:lint": "eslint .",
+    "lint:fix": "eslint --ext \".js,.jsx,.ts,.tsx\" --ignore-path .gitignore ./src/** --fix",
+    "fix": "yarn lint:fix ",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && yarn install && yarn run build",
@@ -64,7 +66,8 @@
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
     "shallowequal": "^1.1.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "utility-types": "^3.10.0"
   },
   "files": [
     "dist"

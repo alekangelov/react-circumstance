@@ -3,6 +3,7 @@
  */
 
 import mergeRefs from './mergeRefs'
+import { hasOwnProperty } from './helpers'
 
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   k: infer I
@@ -67,7 +68,7 @@ export default function mergeProps<T extends {}[]>(
 
   return props.reduce((merged, ps: any) => {
     for (const key in ps) {
-      if (key && ps.hasOwnProperty(key)) pushProp(merged, key, ps[key])
+      if (key && hasOwnProperty(ps, key)) pushProp(merged, key, ps[key])
     }
     return merged
   }, {}) as any

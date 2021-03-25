@@ -6,11 +6,23 @@
   padding: 0.25rem;
   box-sizing: border-box;
   border-radius: 2px;
-  border: 1px solid rgba(black, 0.1)
+  border: 1px solid rgba(black, 0.1);
+  box-shadow: 0 10px 20px rgba(black, 0.5);
 }
 
 .SubMenu {
   box-sizing: border-box;
+  position: absolute;
+  background: white;
+  color: black;
+  padding: 0.25rem;
+  min-width: 14rem;
+  left: calc(100%);
+  top: 0;
+  border-radius: 2px;
+  border: 1px solid rgba(black, 0.1);
+  box-shadow: 0 10px 20px rgba(black, 0.5);
+  z-index: 10;
 }
 
 .MenuItem {
@@ -25,21 +37,26 @@
   grid-template-columns: 1rem 1fr 1rem;
   align-items: center;
   grid-gap: 1rem;
+  position: relative;
   &:hover {
     background: rgba(black, 0.1);
   }
 }
 
 .Divider {
-  width: 100%;
+  width: 90%;
   background: rgba(black, 0.1);
   height: 1px;
+  margin: 0 auto;
 }
 
 .MenuIcon {
   box-sizing: border-box;
   width: 1rem;
   height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   svg, img {
     max-width: 100%;
     max-height: 100%;
@@ -48,6 +65,9 @@
 
 .ArrowIcon {
   box-sizing: border-box;
+  height: 0.5rem;
+  align-self: center;
+  justify-self: center;
 }
 
 .CircumstanceProvider {

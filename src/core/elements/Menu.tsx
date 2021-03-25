@@ -6,23 +6,23 @@ import { useCircumstanceContext } from '../../global/CircumstanceProvider'
 import CLASSNAMES from '../../styles'
 import mergeProps from '../../lib/mergeProps'
 import { CIRCUMSTANCE_TYPES } from '../../lib/__consts'
-import withType from '../hoc/withType'
+import withType, { WithType } from '../hoc/withType'
 
 // import useRefState from '../../hooks/useRefState'
 
 interface MenuProps
   extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLElement>,
-    HTMLElement
-  > {
+      React.HTMLAttributes<HTMLElement>,
+      HTMLElement
+    >,
+    WithType {
   id: string
-  __TYPE?: CIRCUMSTANCE_TYPES
 }
 
-const Menu: React.FC<MenuProps> = ({ id, children, ...rest }) => {
+const Menu: React.FC<MenuProps> = ({ __TYPE, id, children, ...rest }) => {
   const { currentMenu } = useCircumstanceContext()
   // const [coordinates, setCoordinates] = useRefState<CSSProperties>({})
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
   const style = getMenuPosition({
     ...currentMenu.mousePosition,
     ref
@@ -41,6 +41,6 @@ const Menu: React.FC<MenuProps> = ({ id, children, ...rest }) => {
   return portalToRoot(<nav {...mergeProps(props, rest)}>{children}</nav>, id)
 }
 
-if (process.env.NODE_ENV !== 'production') (Menu as any).whyDidYouRender = true
+if (process.env.NODE_ENV !== 'production') (Menu as any).whyDidYouRender = false
 
 export default withType(Menu, CIRCUMSTANCE_TYPES.CIRCUMSTANCE_MENU)
