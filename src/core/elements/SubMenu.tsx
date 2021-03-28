@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import withType, { WithType } from '../hoc/withType'
-// import { CIRCUMSTANCE_TYPES } from '../../lib/__consts'
 import mergeProps from '../../lib/mergeProps'
 import CONSTS, { CIRCUMSTANCE_TYPES } from '../../lib/__consts'
 import CLASSNAMES from '../../styles'
@@ -41,9 +40,16 @@ const SubMenu: React.FC<SubMenuProps> = ({ __TYPE, id, children, ...rest }) => {
       }
     }
   })
+  const MenuItems = React.Children.map(children, (element) => {
+    if (
+      (element as any).props.__TYPE === CIRCUMSTANCE_TYPES.CIRCUMSTANCE_MENUITEM
+    )
+      return React.cloneElement(element as any, { parentId: id } as any)
+    return null
+  })
   return (
     <div {...mergeProps(rest, props)} ref={(e) => (ref.current = e)}>
-      {children}
+      {MenuItems}
     </div>
   )
 }

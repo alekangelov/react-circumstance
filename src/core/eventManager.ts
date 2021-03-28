@@ -1,7 +1,12 @@
 import canUseDOM from '../lib/canUseDom'
 // import { idAndEventFromString } from '../lib/helpers'
 import CONSTS from '../lib/__consts'
-import { camelIds, idAndEventFromString, onlyUnique } from '../lib/helpers'
+import {
+  camelIds,
+  idAndEventFromString,
+  onlyUnique,
+  truthReduce
+} from '../lib/helpers'
 import { classNames } from '../styles'
 import { throttle, debounce } from 'throttle-debounce'
 
@@ -85,13 +90,32 @@ class EventManager implements EventManagerProps {
   }
 
   emit = (event: EventType, MouseEvent: MouseEvent) => {
-    const eventToEmit = this.eventList.get(event)
     if (event === CONSTS.EVENTS.HIDE_ALL) {
       this.eventList.forEach((elem, index) => {
         if (index.includes('.hide')) elem(MouseEvent)
       })
       return this
     }
+    if (event.includes(CONSTS.EVENTS.HIDE_ALL_SUBMENUS)) {
+      const [, except] = event.split('!')
+      const [...allExcept] = except.split(',')
+      console.log(allExcept)
+      this.eventList.forEach((elem, index) => {
+        if (
+          index.includes('.hide') &&
+          index.includes('submenu') &&
+          !truthReduce(allExcept, (prev, curr) => {
+            if (!curr) return true
+
+            return prev && curr && index.includes(curr)
+          })
+        )
+          elem(MouseEvent)
+      })
+      return this
+    }
+    const eventToEmit = this.eventList.get(event)
+
     if (event && typeof eventToEmit === 'function') {
       eventToEmit(MouseEvent)
     }

@@ -72,6 +72,19 @@ const makeCoordinates = (coordinates: {
   return x
 }
 
+export const truthReduce = <
+  T extends Array<any>,
+  B extends (
+    previousValue: any,
+    currentValue: any,
+    currentIndex: number,
+    array: any[]
+  ) => any
+>(
+  element: T,
+  cb: B
+) => element.reduce(cb, true)
+
 export function getSubMenuPosition({ ref }: GetSubMenuPosition): CSSProperties {
   const coordinates = {
     left: 100 as number | string | null | undefined,
@@ -82,7 +95,6 @@ export function getSubMenuPosition({ ref }: GetSubMenuPosition): CSSProperties {
   if (!ref.current) return makeCoordinates(coordinates)
   const { innerWidth, innerHeight } = window
   const rect = ref.current.getBoundingClientRect()
-  console.log(rect)
   if (rect.top + rect.height > innerHeight) {
     coordinates.bottom = '0%'
   }

@@ -3,6 +3,7 @@ const CONSTS = {
   EVENTS: {
     HIDE_ALL: 'HIDE_ALL',
     HIDE_ALL_SUBMENUS: 'HIDE_ALL_SUBMENUS',
+    HIDE_ALL_SUBMENUS_EXCEPT: (id: string) => `HIDE_ALL_SUBMENUS!${id}`,
     SHOW_SUBMENU: (id: string) => `submenu.${id}.show`,
     HIDE_SUBMENU: (id: string) => `submenu.${id}.hide`,
     SHOW_MENU: (id: string) => `${id}.show`,
